@@ -49,6 +49,9 @@ Problems that only happen on 26.2 belong in this repository's issues. Please do 
 - **Sh1roCu** – TaCZ Refabricated.
 - Everyone who made guns, attachments and packs for TaCZ.
 
+
 ## License
 
 Code: GPL 3.0 (see [`LICENSE`](LICENSE)). Assets are not part of this repository; they are CC BY-NC-ND 4.0 and belong to their authors.
+
+*Parts of this port were made with the help of Claude (Anthropic).*
