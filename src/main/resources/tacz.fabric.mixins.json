@@ -1,0 +1,49 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.sh1rocu.tacz.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "cn.sh1rocu.tacz.util.MixinPlugin",
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
+  "mixins": [
+    "common.BlockBehaviourMixin",
+    "common.BundlePacketMixin",
+    "common.EntityMixin",
+    "common.ItemPropertiesMixin",
+    "common.BlockPropertiesMixin",
+    "common.LivingEntityMixin",
+    "common.LootTableMixin",
+    "common.PackRepositoryMixin",
+    "common.PersistentEntitySectionManagerMixin",
+    "common.PlayerListMixin",
+    "common.PlayerMixin",
+    "common.RecipeManagerMixin",
+    "common.ReloadableResourcesMixin",
+    "common.ServerEntityMixin",
+    "common.ServerLevelMixin",
+    "common.ServerPacksSourceMixin",
+    "common.itemhandler.AbstractHorseMixin",
+    "common.itemhandler.LivingEntityMixin",
+    "common.itemhandler.PlayerMixin"
+  ],
+  "client": [
+    "accessor.AbstractSliderButtonAccessor",
+    "accessor.BlockableEventLoopAccessor",
+    "accessor.ScreenAccessor",
+    "client.CameraMixin",
+    "client.LivingEntityRendererMixin",
+    "client.CreateWorldScreenMixin",
+    "client.RenderTickMixin",
+    "client.ClientLevelMixin",
+    "client.ClientPacketListenerMixin",
+    "client.KeyboardHandlerMixin",
+    "client.MinecraftMixin",
+    "client.MouseHandlerMixin",
+    "client.TextureAtlasMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

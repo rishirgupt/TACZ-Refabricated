@@ -1,0 +1,88 @@
+package com.tacz.guns.compat.jei.category;
+
+import com.tacz.guns.compat.jei.entry.AttachmentQueryEntry;
+import com.tacz.guns.init.ModCreativeTabs;
+import java.util.List;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+
+public class AttachmentQueryCategory implements IRecipeCategory<AttachmentQueryEntry> {
+   public static final IRecipeType<AttachmentQueryEntry> ATTACHMENT_QUERY = IRecipeType.create("tacz", "attachment_query", AttachmentQueryEntry.class);
+   public static final int MAX_GUN_SHOW_COUNT = 60;
+   private static final Component TITLE = Component.translatable("jei.tacz.attachment_query.title");
+   private final IDrawableStatic bgDraw;
+   private final IDrawable slotDraw;
+   private final IDrawable iconDraw;
+
+   public AttachmentQueryCategory(IGuiHelper guiHelper) {
+      this.bgDraw = guiHelper.createBlankDrawable(160, 145);
+      this.slotDraw = guiHelper.getSlotDrawable();
+      this.iconDraw = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, ModCreativeTabs.ATTACHMENT_SCOPE_TAB.getIconItem());
+   }
+
+   public void draw(AttachmentQueryEntry entry, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+      List<ItemStack> extraAllowGunStacks = entry.getExtraAllowGunStacks();
+      if (!extraAllowGunStacks.isEmpty()) {
+         Font font = Minecraft.getInstance().font;
+         guiGraphics.text(font, Component.translatable("jei.tacz.attachment_query.more"), 128, 134, (0xFF000000 | 5592405), false);
+      }
+   }
+
+   public void setRecipe(IRecipeLayoutBuilder builder, AttachmentQueryEntry entry, IFocusGroup focuses) {
+      ItemStack attachmentStack = entry.getAttachmentStack();
+      List<ItemStack> allowGunStacks = entry.getAllowGunStacks();
+      List<ItemStack> extraAllowGunStacks = entry.getExtraAllowGunStacks();
+      ((IRecipeSlotBuilder)builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 0).addItemStack(attachmentStack)).setBackground(this.slotDraw, -1, -1);
+      int xOffset = 0;
+      int yOffset = 20;
+
+      for (int i = 0; i < allowGunStacks.size(); i++) {
+         int column = i % 9;
+         int row = i / 9;
+         xOffset = column * 18;
+         yOffset = 20 + row * 18;
+         ItemStack gun = allowGunStacks.get(i);
+         ((IRecipeSlotBuilder)builder.addSlot(RecipeIngredientRole.INPUT, xOffset, yOffset).addItemStack(gun)).setBackground(this.slotDraw, -1, -1);
+      }
+
+      if (!extraAllowGunStacks.isEmpty()) {
+         ((IRecipeSlotBuilder)builder.addSlot(RecipeIngredientRole.INPUT, xOffset + 18, yOffset).addItemStacks(extraAllowGunStacks))
+            .setBackground(this.slotDraw, -1, -1);
+      }
+   }
+
+   public IRecipeType<AttachmentQueryEntry> getRecipeType() {
+      return ATTACHMENT_QUERY;
+   }
+
+   public Component getTitle() {
+      return TITLE;
+   }
+
+   public int getWidth() {
+      return this.bgDraw.getWidth();
+   }
+
+   @Override
+   public int getHeight() {
+      return this.bgDraw.getHeight();
+   }
+
+   public IDrawable getIcon() {
+      return this.iconDraw;
+   }
+}

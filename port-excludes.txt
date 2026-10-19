@@ -1,0 +1,4 @@
+cn/sh1rocu/tacz/compat/rei/**
+cn/sh1rocu/tacz/mixin/compat/**
+com/tacz/guns/compat/carryon/**
+com/tacz/guns/compat/kubejs/**

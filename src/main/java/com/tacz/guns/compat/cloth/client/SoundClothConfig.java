@@ -1,0 +1,69 @@
+package com.tacz.guns.compat.cloth.client;
+
+import com.tacz.guns.config.client.SoundConfig;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.network.chat.Component;
+
+public class SoundClothConfig {
+   public static void init(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
+      ConfigCategory sound = root.getOrCreateCategory(Component.translatable("config.tacz.client.sound"));
+      sound.addEntry(
+         entryBuilder.startIntField(
+               Component.translatable("config.tacz.client.sound.hit_sound_concurrency_limit"), (Integer)SoundConfig.HIT_SOUND_CONCURRENCY_LIMIT.get()
+            )
+            .setMin(0)
+            .setMax(128)
+            .setDefaultValue(1)
+            .setTooltip(new Component[]{Component.translatable("config.tacz.client.sound.hit_sound_concurrency_limit.desc")})
+            .setSaveConsumer(value -> {
+               SoundConfig.HIT_SOUND_CONCURRENCY_LIMIT.set(value);
+               SoundConfig.HIT_SOUND_CONCURRENCY_LIMIT.save();
+            })
+            .build()
+      );
+      sound.addEntry(
+         entryBuilder.startIntField(
+               Component.translatable("config.tacz.client.sound.default_sound_concurrency_limit"), (Integer)SoundConfig.DEFAULT_SOUND_CONCURRENCY_LIMIT.get()
+            )
+            .setMin(0)
+            .setMax(128)
+            .setDefaultValue(2)
+            .setTooltip(new Component[]{Component.translatable("config.tacz.client.sound.default_sound_concurrency_limit.desc")})
+            .setSaveConsumer(value -> {
+               SoundConfig.DEFAULT_SOUND_CONCURRENCY_LIMIT.set(value);
+               SoundConfig.DEFAULT_SOUND_CONCURRENCY_LIMIT.save();
+            })
+            .build()
+      );
+      sound.addEntry(
+         entryBuilder.startIntField(
+               Component.translatable("config.tacz.client.sound.high_frequency_sound_concurrency_limit"),
+               (Integer)SoundConfig.HIGH_FREQUENCY_SOUND_CONCURRENCY_LIMIT.get()
+            )
+            .setMin(0)
+            .setMax(128)
+            .setDefaultValue(4)
+            .setTooltip(new Component[]{Component.translatable("config.tacz.client.sound.high_frequency_sound_concurrency_limit.desc")})
+            .setSaveConsumer(value -> {
+               SoundConfig.HIGH_FREQUENCY_SOUND_CONCURRENCY_LIMIT.set(value);
+               SoundConfig.HIGH_FREQUENCY_SOUND_CONCURRENCY_LIMIT.save();
+            })
+            .build()
+      );
+      sound.addEntry(
+         entryBuilder.startBooleanToggle(
+               Component.translatable("config.tacz.client.sound.first_person_animation_sound_tracking"),
+               (Boolean)SoundConfig.FIRST_PERSON_ANIMATION_SOUND_TRACKING.get()
+            )
+            .setDefaultValue(false)
+            .setTooltip(new Component[]{Component.translatable("config.tacz.client.sound.first_person_animation_sound_tracking.desc")})
+            .setSaveConsumer(value -> {
+               SoundConfig.FIRST_PERSON_ANIMATION_SOUND_TRACKING.set(value);
+               SoundConfig.FIRST_PERSON_ANIMATION_SOUND_TRACKING.save();
+            })
+            .build()
+      );
+   }
+}

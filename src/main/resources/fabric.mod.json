@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "tacz",
+  "version": "${version}",
+  "name": "Timeless & Classics Guns: Zero (Fabric 26.2)",
+  "description": "A port of Timeless & Classics Guns: Zero (Refabricated) to Minecraft 26.2.",
+  "authors": [
+    "Sh1roCu"
+  ],
+  "contact": {},
+  "license": "GPL3 / CC BY-NC-ND 4.0",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "cn.sh1rocu.tacz.client.TaCZFabricClient"
+    ],
+    "main": [
+      "cn.sh1rocu.tacz.TaCZFabric"
+    ],
+    "cardinal-components-entity": [
+      "com.tacz.guns.init.CapabilityRegistry"
+    ],
+    "modmenu": [
+      "cn.sh1rocu.tacz.compat.modmenu.ModMenuApiImpl"
+    ],
+    "jei_mod_plugin": [
+      "com.tacz.guns.compat.jei.GunModPlugin"
+    ]
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/world/entity/LivingEntity": [
+        "cn/sh1rocu/tacz/api/mixin/ItemHandlerCapability"
+      ]
+    },
+    "cardinal-components": [
+      "tacz:synced_entity_data"
+    ]
+  },
+  "mixins": [
+    "tacz.mixins.json",
+    "tacz.fabric.mixins.json"
+  ],
+  "accessWidener": "tacz.accesswidener",
+  "jars": [
+    {"file": "META-INF/jars/luaj-core-3.0.8-figura.jar"},
+    {"file": "META-INF/jars/luaj-jse-3.0.8-figura.jar"},
+    {"file": "META-INF/jars/commons-math3-3.6.1.jar"},
+    {"file": "META-INF/jars/bcel-6.6.1.jar"},
+    {"file": "META-INF/jars/mae-1.1.1.jar"},
+    {"file": "META-INF/jars/ForgeConfigAPIPort-v26.2.1-mc26.2.x-Fabric.jar"},
+    {"file": "META-INF/jars/cardinal-components-base-8.0.1.jar"},
+    {"file": "META-INF/jars/cardinal-components-entity-8.0.1.jar"}
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "fabric-api": "*",
+    "minecraft": "~26.2",
+    "forgeconfigapiport": "*",
+    "cardinal-components-entity": "*"
+  }
+}

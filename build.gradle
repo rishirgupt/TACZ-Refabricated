@@ -1,0 +1,109 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+base {
+	archivesName = "tacz-fabric-26.2"
+}
+
+repositories {
+	maven {
+		name = 'Modrinth'
+		url = 'https://api.modrinth.com/maven'
+		content {
+			includeGroup 'maven.modrinth'
+		}
+	}
+}
+
+sourceSets {
+	gametest {
+		compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+		runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+	}
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/tacz.accesswidener")
+
+	mods {
+		"tacz" {
+			sourceSet sourceSets.main
+		}
+		"tacz-gametest" {
+			sourceSet sourceSets.gametest
+		}
+	}
+
+	runs {
+		server {
+			server()
+			runDir "run-server"
+		}
+		client {
+			client()
+			runDir "run"
+		}
+		clientGameTest {
+			client()
+			source sourceSets.gametest
+			vmArg "-Dfabric.client.gametest"
+			vmArg "-Dfabric.client.gametest.modid=tacz-gametest"
+			runDir "build/run-gametest"
+			ideConfigGenerated false
+		}
+	}
+}
+
+dependencies {
+	// Minecraft 26.x is unobfuscated: no mappings line, and plain implementation instead of modImplementation.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Libraries and mods that have no Maven artifact for 26.2 are taken from libs/.
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	implementation "maven.modrinth:cloth-config:${project.cloth_config_version}"
+	implementation "maven.modrinth:modmenu:${project.modmenu_version}"
+	implementation "maven.modrinth:jei:${project.jei_version}"
+	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+	it.options.compilerArgs += ["-Xmaxerrs", "100000", "-Xmaxwarns", "0"]
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+// PORTING: files not yet ported stay in the tree but are not compiled.
+sourceSets.main.java {
+	file("port-excludes.txt").readLines().findAll { it.trim() }.each { exclude it.trim() }
+}
+
+tasks.register('printCp') {
+	doLast { file("build/cp.txt").text = sourceSets.main.compileClasspath.asPath }
+}
+
+// Libraries that are not Minecraft mods are nested into the jar (jar-in-jar); Fabric Loader loads them from META-INF/jars.
+def nestedJars = [
+	'luaj-core-3.0.8-figura.jar', 'luaj-jse-3.0.8-figura.jar', 'commons-math3-3.6.1.jar', 'bcel-6.6.1.jar', 'mae-1.1.1.jar',
+	'ForgeConfigAPIPort-v26.2.1-mc26.2.x-Fabric.jar', 'cardinal-components-base-8.0.1.jar', 'cardinal-components-entity-8.0.1.jar'
+]
+tasks.named('jar') {
+	into('META-INF/jars') {
+		from('libs') { include nestedJars }
+	}
+}

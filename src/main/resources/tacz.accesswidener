@@ -1,0 +1,13 @@
+accessWidener v2 official
+
+accessible method net/minecraft/client/multiplayer/MultiPlayerGameMode ensureHasSentCarriedItem ()V
+accessible field net/minecraft/client/renderer/texture/TextureManager byPath Ljava/util/Map;
+accessible method net/minecraft/client/Minecraft startUseItem ()V
+accessible field net/minecraft/world/entity/LivingEntity jumping Z
+extendable method net/minecraft/world/entity/vehicle/VehicleEntity getDropItem ()Lnet/minecraft/world/item/Item;
+accessible field net/minecraft/world/item/component/CustomData tag Lnet/minecraft/nbt/CompoundTag;
+accessible field net/minecraft/client/renderer/RenderPipelines ENTITY_SNIPPET Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;
+accessible method net/minecraft/world/level/ServerExplosion calculateExplodedPositions ()Ljava/util/List;
+accessible method net/minecraft/world/level/ServerExplosion interactWithBlocks (Ljava/util/List;)V
+accessible method net/minecraft/world/level/ServerExplosion createFire (Ljava/util/List;)V
+accessible method net/minecraft/world/level/ServerExplosion interactsWithBlocks ()Z

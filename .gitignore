@@ -1,0 +1,17 @@
+
+# build output and local run directories
+/build/
+/run/
+/run-server/
+/.gradle/
+/bin/
+/tools/origlibs/
+/port-pending/
+# third-party jars taken from libs/ (see README)
+/libs/
+# Art, models, sounds, gun data and icons are CC BY-NC-ND 4.0 (no derivatives) and belong to the TACZ authors: not redistributed here
+/src/main/resources/assets/
+/src/main/resources/data/
+/src/main/resources/icon.png
+/src/main/resources/logo.png
+/tools/mappings-1.21.1.tiny
